@@ -21,7 +21,6 @@ let adminSchema = Schema (
         },
         confirmPassword: {
             type: String,
-            unique: true,
             required: [true, 'Confirm Password harus diisi']
         },
         token: {
