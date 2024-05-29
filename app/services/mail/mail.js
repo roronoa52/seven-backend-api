@@ -84,7 +84,9 @@ const sendToEmail = (req, booking) =>{
       }
     });
 
-    createEvent(oAuth2Client, booking)
+    if (req.body.isNeedNotification){
+      createEvent(oAuth2Client, booking)
+    }
 }
 
 

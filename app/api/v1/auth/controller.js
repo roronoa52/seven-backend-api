@@ -53,10 +53,7 @@ const getRefreshToken = async (req, res, next) => {
         const {tokens} = await oAuth2Client.getToken(code);
 
         oAuth2Client.setCredentials(tokens);
-
-        res.status(StatusCodes.OK).json({
-            data: result
-        })
+        
     } catch (error) {
         next(error)
     }
