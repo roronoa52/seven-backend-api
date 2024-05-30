@@ -4,7 +4,7 @@ const { google } = require('googleapis');
 const moment = require('moment-timezone');
 const { gmail, password } = require('../../config');
 
-const sendToEmail = (req, booking) =>{
+const sendToEmail = async(req, booking) =>{
     
     booking.startDate = moment(booking.startDate).subtract(7, 'hours').format();
     booking.endDate = moment(booking.endDate).subtract(7, 'hours').format();
@@ -85,12 +85,12 @@ const sendToEmail = (req, booking) =>{
     });
 
     if (req.body.isNeedNotification){
-      createEvent(oAuth2Client, booking)
+      await createEvent(oAuth2Client, booking)
     }
 }
 
 
-  const createEvent = (auth, booking) => {
+  const createEvent = async(auth, booking) => {
 
     const calendar = google.calendar({ version: 'v3', auth });
     const event = {

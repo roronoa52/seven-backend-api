@@ -15,7 +15,7 @@ const { transport, mailOptions, sendToEmail } = require('../../../services/mail/
     try {
       const result = await createBooking(req);  
       
-      sendToEmail(req, result)
+      await sendToEmail(req, result)
   
       res.status(StatusCodes.CREATED).json({
         data: result,
