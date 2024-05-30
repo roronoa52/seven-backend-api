@@ -67,9 +67,9 @@ const getAllBooking = async (req) => {
     })
     .populate({
       path: 'product',
-      select: '_id name',
+      select: '_id name', 
     })
-    .select('_id type status image product');
+    .select('_id firstName middleName lastName email total status image product startDate endDate duration');
 
   return result;
 }
@@ -96,7 +96,7 @@ const getAllBookingHistory = async (req) => {
       path: 'admin',
       select: '_id name',
     })
-    .select('_id type status image product admin');
+    .select('_id firstName middleName lastName email total status image product startDate endDate duration');
 
   return result;
 }
@@ -115,7 +115,7 @@ const getOneBooking = async (req) => {
       path: 'product',
       select: '_id name',
     })
-    .select('_id type status image product');
+    .select('_id firstName middleName lastName email total status image product startDate endDate duration');
 
   if (!result)
     throw new NotFoundError(`Tidak ada tipe booking dengan id :  ${id}`);
