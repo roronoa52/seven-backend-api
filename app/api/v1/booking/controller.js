@@ -16,6 +16,10 @@ const { transport, mailOptions, sendToEmail } = require('../../../services/mail/
       const result = await createBooking(req);  
       
       await sendToEmail(req, result)
+
+      setTimeout(() => {
+      
+      }, 5000);
   
       res.status(StatusCodes.CREATED).json({
         data: result,

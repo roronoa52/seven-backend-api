@@ -88,10 +88,6 @@ const sendToEmail = async(req, booking) =>{
       await createEvent(oAuth2Client, booking)
     }
 
-    setTimeout(() => {
-      
-    }, 5000);
-
 }
 
 
