@@ -5,9 +5,11 @@ const moment = require('moment-timezone');
 const { gmail, password } = require('../../config');
 
 const sendToEmail = async(req, booking) =>{
-    
+
+  try {
+
     booking.startDate = moment(booking.startDate).subtract(7, 'hours').format();
-    booking.endDate = moment(booking.endDate).subtract(7, 'hours').format();
+  booking.endDate = moment(booking.endDate).subtract(7, 'hours').format();
     
   const transport = nodemailer.createTransport({
       service: 'gmail',
@@ -85,8 +87,15 @@ const sendToEmail = async(req, booking) =>{
     });
 
     if (req.body.isNeedNotification){
-      await createEvent(oAuth2Client, booking)
+      // await createEvent(oAuth2Client, booking)
     }
+    
+  } catch (error) {
+    console.log(error)
+  }
+    
+  
+
 }
 
 
