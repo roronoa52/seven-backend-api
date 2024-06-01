@@ -9,17 +9,11 @@ const {
   getAllBookingHistory
   } = require('../../../services/mongoosee/booking');
 const { bufferToBase64 } = require('../../../utils/base64');
-const { transport, mailOptions, sendToEmail } = require('../../../services/mail/mail');
+const { transport, mailOptions, sendToEmailIfSuccess, sendToEmailIfError } = require('../../../services/mail/mail');
 
   const create = async (req, res, next) => {
     try {
       const result = await createBooking(req);  
-      
-      await sendToEmail(req, result)
-
-      setTimeout(() => {
-      
-      }, 5000);
   
       res.status(StatusCodes.CREATED).json({
         data: result,
@@ -88,6 +82,15 @@ const { transport, mailOptions, sendToEmail } = require('../../../services/mail/
   const update = async (req, res, next) => {
     try {
       const result = await updateBooking(req);
+
+      if(req.body.status === "ditolak"){
+        await sendToEmailIfError(req, result)
+      }
+
+      if(req.body.status === "berhasil"){
+        await sendToEmailIfSuccess(req, result)
+      }
+
   
       res.status(StatusCodes.OK).json({
         data: result,
