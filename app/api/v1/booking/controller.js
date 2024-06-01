@@ -88,8 +88,6 @@ const { transport, mailOptions, sendToEmailIfSuccess, sendToEmailIfError } = req
       }
 
       if(req.body.status === "berhasil"){
-        console.log("berhasil")
-
         await sendToEmailIfSuccess(result)
       }
 
