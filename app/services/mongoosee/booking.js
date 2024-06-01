@@ -6,7 +6,7 @@ const { checkingImage } = require('./images');
 const { NotFoundError, BadRequestError } = require('../../errors');
 
 const createBooking = async (req) => {
-  const { firstName, middleName, lastName, email, productid, status, image, startDate, duration } = req.body;
+  const { firstName, middleName, lastName, email, productid, status, image, startDate, duration, isNeedNotification } = req.body;
 
   await checkingImage(image);
 
@@ -45,7 +45,8 @@ const createBooking = async (req) => {
     product: product._id,
     startDate: startDateTime,
     endDate: endDateTime,
-    duration
+    duration,
+    isNeedNotification
   });
 
   return result;
@@ -69,7 +70,7 @@ const getAllBooking = async (req) => {
       path: 'product',
       select: '_id name', 
     })
-    .select('_id firstName middleName lastName email total status image product startDate endDate duration');
+    .select('_id firstName middleName lastName email total status image product startDate endDate duration isNeedNotification');
 
   return result;
 }
@@ -96,7 +97,7 @@ const getAllBookingHistory = async (req) => {
       path: 'admin',
       select: '_id name',
     })
-    .select('_id firstName middleName lastName email total status image product startDate endDate duration');
+    .select('_id firstName middleName lastName email total status image product startDate endDate duration isNeedNotification');
 
   return result;
 }
@@ -115,7 +116,7 @@ const getOneBooking = async (req) => {
       path: 'product',
       select: '_id name',
     })
-    .select('_id firstName middleName lastName email total status image product startDate endDate duration');
+    .select('_id firstName middleName lastName email total status image product startDate endDate duration isNeedNotification');
 
   if (!result)
     throw new NotFoundError(`Tidak ada tipe booking dengan id :  ${id}`);
@@ -147,7 +148,8 @@ const updateBooking = async (req) => {
     admin: req.user.id,
     startDate: result.startDate,
     endDate: result.endDate,
-    duration: result.duration
+    duration: result.duration,
+    isNeedNotification: result.isNeedNotification
   });
 
   if (!result)

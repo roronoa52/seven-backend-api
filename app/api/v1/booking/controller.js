@@ -84,11 +84,13 @@ const { transport, mailOptions, sendToEmailIfSuccess, sendToEmailIfError } = req
       const result = await updateBooking(req);
 
       if(req.body.status === "ditolak"){
-        await sendToEmailIfError(req, result)
+        await sendToEmailIfError(result)
       }
 
       if(req.body.status === "berhasil"){
-        await sendToEmailIfSuccess(req, result)
+        console.log("berhasil")
+
+        await sendToEmailIfSuccess(result)
       }
 
   

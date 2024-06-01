@@ -53,6 +53,10 @@ const BookingSchema = new mongoose.Schema(
         type: Number,
         required: [true, 'Duration harus diisi'],
         min: [1, 'Duration minimal 1 jam']
+      },
+      isNeedNotification: {
+        type: Boolean,
+        default: false
       }
     },
     { timestamps: true }

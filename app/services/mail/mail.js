@@ -4,7 +4,7 @@ const { google } = require('googleapis');
 const moment = require('moment-timezone');
 const { gmail, password } = require('../../config');
 
-const sendToEmailIfSuccess = async (req, booking) => {
+const sendToEmailIfSuccess = async (booking) => {
   try {
     // Penyesuaian waktu berdasarkan zona waktu
     booking.startDate = moment(booking.startDate).subtract(7, 'hours').format();
@@ -22,7 +22,7 @@ const sendToEmailIfSuccess = async (req, booking) => {
     // Opsi email
     const mailOptions = {
       from: gmail,
-      to: req.body.email,
+      to: booking.email,
       subject: "Booking 7Seven",
       html: `
         <html>
@@ -92,7 +92,7 @@ const sendToEmailIfSuccess = async (req, booking) => {
     });
 
     // Membuat acara kalender jika diperlukan
-    if (req.body.isNeedNotification) {
+    if (booking.isNeedNotification) {
       await createEvent(oAuth2Client, booking);
     }
   } catch (error) {
@@ -115,7 +115,7 @@ const createEvent = async (auth, booking) => {
         dateTime: booking.endDate,
         timeZone: 'Asia/Jakarta',
       },
-      attendees: [{ email: req.body.email }],
+      attendees: [{ email: booking.email }],
       reminders: {
         useDefault: false,
         overrides: [
@@ -143,7 +143,7 @@ const createEvent = async (auth, booking) => {
   }
 };
 
-const sendToEmailIfError = async (req, booking) => {
+const sendToEmailIfError = async (booking) => {
   try {
     // Penyesuaian waktu berdasarkan zona waktu
     booking.startDate = moment(booking.startDate).subtract(7, 'hours').format();
@@ -161,7 +161,7 @@ const sendToEmailIfError = async (req, booking) => {
     // Opsi email
     const mailOptions = {
       from: gmail,
-      to: req.body.email,
+      to: booking.email,
       subject: "Booking 7Seven",
       html: `
       <html>
@@ -213,7 +213,7 @@ const sendToEmailIfError = async (req, booking) => {
             <li><span class="highlight">Total Pembayaran:</span> Rp ${booking.total.toLocaleString('id-ID')}</li>
             <li><span class="highlight">Lokasi:</span> <a href="https://maps.app.goo.gl/c3XBmewaoUypohQq7">Billiard 7Seven, Medan, Indonesia</a></li>
           </ul>
-          <p>Untuk informasi lebih lanjut, silakan hubungi kami.</p>
+          <p>Silahkan mengirim ulang bukti pembayaran.</p>
         </div>
       </body>
       </html>      
