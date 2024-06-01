@@ -127,16 +127,6 @@ const updateBooking = async (req) => {
   const { id } = req.params;
   const { status } = req.body;
 
-  // Cek apakah ada dokumen dengan id yang berbeda dan status yang sama
-  const check = await Booking.findOne({
-    _id: { $ne: id },
-    status: status
-  });
-
-  if (check) {
-    throw new BadRequestError('Tipe booking duplikat');
-  }
-
   // Perbarui tipe booking
   const result = await Booking.findOneAndUpdate(
     { _id: id },
