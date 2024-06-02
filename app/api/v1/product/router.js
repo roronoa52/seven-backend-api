@@ -6,7 +6,7 @@ const { authenticateUser } = require("../../../middlewares/auth")
 router.post ("/products", authenticateUser, create)
 router.put ("/products/:id", authenticateUser, update)
 router.delete ("/products/:id", authenticateUser, destroy)
-router.get ("/products", authenticateUser, index)
-router.get ("/products/:id", authenticateUser, find)
+router.get ("/products", index)
+router.get ("/products/:id", find)
 
 module.exports = router
