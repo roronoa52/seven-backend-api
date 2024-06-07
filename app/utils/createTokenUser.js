@@ -6,13 +6,12 @@ const createTokenUser = (user) => {
     };
   };
   
-  const createTokenParticipant = (participant) => {
+  const createTokenClient = (user) => {
     return {
-      lastName: participant.lastName,
-      participantId: participant._id,
-      firstName: participant.firstName,
-      email: participant.email,
+      name: user.name,
+      userId: user._id,
+      email: user.email,
     };
   };
   
-  module.exports = { createTokenUser, createTokenParticipant };
+  module.exports = { createTokenUser, createTokenClient };

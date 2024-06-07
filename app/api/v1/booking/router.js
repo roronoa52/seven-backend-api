@@ -3,9 +3,10 @@ const router = express();
 const { create, index, find, update, destroy, indexHistory } = require('./controller');
 const {
   authenticateUser,
+  authenticateClient
 } = require('../../../middlewares/auth');
 
-router.post('/bookings', create);
+router.post('/bookings', authenticateClient, create);
 router.get('/bookings', authenticateUser, index);
 router.get('/historybookings', authenticateUser, indexHistory);
 router.get('/bookings/:id', authenticateUser, find);

@@ -46,7 +46,8 @@ const createBooking = async (req) => {
     startDate: startDateTime,
     endDate: endDateTime,
     duration,
-    isNeedNotification
+    isNeedNotification,
+    clientId: req.user.id
   });
 
   return result;

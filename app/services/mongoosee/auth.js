@@ -1,6 +1,7 @@
 const Admins = require('../../api/v1/admin/model');
+const Clients = require('../../api/v1/client/model');
 const { BadRequestError, UnauthorizedError } = require('../../errors');
-const { createTokenUser, createJWT } = require('../../utils');
+const { createTokenClient, createJWT } = require('../../utils');
 
 const signin = async (req) => {
   const { email, password } = req.body;
@@ -31,4 +32,27 @@ const signin = async (req) => {
   return { token, name: result.name, email: result.email };
 };
 
-module.exports = { signin };
+const signinClient = async (google) => {
+
+  
+  const result = await Clients.findOne({ email: google.email });
+
+  if (!result) {
+    await Clients.create({
+      name: google.given_name,
+      email: google.email
+    })
+  }
+
+  const token = createJWT({ payload: createTokenClient(result) });
+
+  await Clients.findOneAndUpdate(
+    {  email: google.email },
+    { token },
+    { new: true, runValidators: true }
+  );
+
+  return { token, name: result.name, email: result.email };
+};
+
+module.exports = { signin, signinClient };

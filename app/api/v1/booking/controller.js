@@ -9,12 +9,12 @@ const {
   getAllBookingHistory
   } = require('../../../services/mongoosee/booking');
 const { bufferToBase64 } = require('../../../utils/base64');
-const { transport, mailOptions, sendToEmailIfSuccess, sendToEmailIfError } = require('../../../services/mail/mail');
+const { sendToEmailIfSuccess, sendToEmailIfError } = require('../../../services/mail/mail');
 
   const create = async (req, res, next) => {
     try {
-      const result = await createBooking(req);  
-  
+      const result = await createBooking(req);
+
       res.status(StatusCodes.CREATED).json({
         data: result,
       });

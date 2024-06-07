@@ -10,5 +10,6 @@ module.exports = {
     jwtExpiration: '24h',
     jwtSecret: 'jwtSecret',
     gmail: process.env.EMAIL,
-    password: process.env.PASSWORD_APPLICATION
+    password: process.env.PASSWORD_APPLICATION,
+    urlServer: process.env.URL_SERVER
 }
