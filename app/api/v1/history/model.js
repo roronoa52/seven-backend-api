@@ -48,6 +48,11 @@ const mongoose = require('mongoose');
         ref: 'Product',
         required: true
       },
+      clientId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Clients',
+        required: true
+      },
       startDate: {
         type: Date,
         required: [true, 'Start date harus diisi']

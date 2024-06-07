@@ -150,7 +150,8 @@ const updateBooking = async (req) => {
     startDate: result.startDate,
     endDate: result.endDate,
     duration: result.duration,
-    isNeedNotification: result.isNeedNotification
+    isNeedNotification: result.isNeedNotification,
+    clientId: result.clientId
   });
 
   if (!result)
