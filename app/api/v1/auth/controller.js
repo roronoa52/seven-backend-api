@@ -60,9 +60,11 @@ const getRefreshToken = async (req, res, next) => {
             url: 'https://www.googleapis.com/oauth2/v3/userinfo'
         });
 
-        await signinClient(userInfo.data)
+        const result = await signinClient(userInfo.data)
         
-        res.redirect(urlServer)
+        res.status(StatusCodes.OK).json({
+            data: result
+        })
     } catch (error) {
         next(error)
     }
