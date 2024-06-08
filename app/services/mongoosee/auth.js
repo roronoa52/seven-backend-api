@@ -1,7 +1,7 @@
 const Admins = require('../../api/v1/admin/model');
 const Clients = require('../../api/v1/client/model');
 const { BadRequestError, UnauthorizedError } = require('../../errors');
-const { createTokenClient, createJWT } = require('../../utils');
+const { createTokenClient, createJWT, createTokenUser } = require('../../utils');
 
 const signin = async (req) => {
   const { email, password } = req.body;
