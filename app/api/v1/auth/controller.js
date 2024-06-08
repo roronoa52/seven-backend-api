@@ -53,22 +53,23 @@ const getRefreshToken = async (req, res, next) => {
         const code = req.query.code;
         
         const {tokens} = await oAuth2Client.getToken(code);
-
         oAuth2Client.setCredentials(tokens);
 
         const userInfo = await oAuth2Client.request({
             url: 'https://www.googleapis.com/oauth2/v3/userinfo'
         });
 
-        const result = await signinClient(userInfo.data)
+        const result = await signinClient(userInfo.data);
         
-        res.status(StatusCodes.OK).json({
-            data: result
-        })
+        // URL frontend tempat Anda ingin mengarahkan pengguna setelah login
+        const redirectUrl = `http://localhost:3000/redirect?token=${result.token}&name=${result.name}&email=${result.email}`;
+        
+        // Mengarahkan pengguna ke URL frontend
+        res.redirect(redirectUrl);
     } catch (error) {
-        next(error)
+        next(error);
     }
-}
+};
 
 module.exports= {
     signinAdmin,
