@@ -35,10 +35,10 @@ const signin = async (req) => {
 const signinClient = async (google) => {
 
   
-  const result = await Clients.findOne({ email: google.email });
+  var result = await Clients.findOne({ email: google.email });
 
   if (!result) {
-    await Clients.create({
+    result = await Clients.create({
       name: google.given_name,
       email: google.email
     })

@@ -137,7 +137,7 @@ const { oAuth2Client } = require('../../../google/oauth2');
     try {
       const result = await getOneBooking(req);
 
-      if (result.isNeedNotification) {
+      if (result.isNeedNotification && result.status == "berhasil") {
         await createEvent(oAuth2Client, result);
       }
       

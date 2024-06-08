@@ -62,7 +62,7 @@ const getRefreshToken = async (req, res, next) => {
 
         await signinClient(userInfo.data)
         
-        res.redirect("https://seven-backend-api.vercel.app")
+        res.redirect(urlServer)
     } catch (error) {
         next(error)
     }
