@@ -6,10 +6,12 @@ const {
   getOneBooking,
   updateBooking,
   deleteBooking,
-  getAllBookingHistory
+  getAllBookingHistory,
+  getAllBookingClient
   } = require('../../../services/mongoosee/booking');
 const { bufferToBase64 } = require('../../../utils/base64');
-const { sendToEmailIfSuccess, sendToEmailIfError } = require('../../../services/mail/mail');
+const { sendToEmailIfSuccess, sendToEmailIfError, createEvent } = require('../../../services/mail/mail');
+const { oAuth2Client } = require('../../../google/oauth2');
 
   const create = async (req, res, next) => {
     try {
@@ -26,6 +28,26 @@ const { sendToEmailIfSuccess, sendToEmailIfError } = require('../../../services/
   const index = async (req, res, next) => {
     try {
       const result = await getAllBooking(req);
+
+      const resultCopy = JSON.parse(JSON.stringify(result));
+
+      for (const data of resultCopy) {
+        if (data && data.image.dataImage) {
+          data.image.dataImage = bufferToBase64(data.image.dataImage);
+        }
+      }
+  
+      res.status(StatusCodes.OK).json({
+        data: resultCopy,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  const indexClient = async (req, res, next) => {
+    try {
+      const result = await getAllBookingClient(req);
 
       const resultCopy = JSON.parse(JSON.stringify(result));
 
@@ -111,6 +133,22 @@ const { sendToEmailIfSuccess, sendToEmailIfError } = require('../../../services/
     }
   };
 
+  const activeNotification = async (req, res, next) => {
+    try {
+      const result = await getOneBooking(req);
+
+      if (result.isNeedNotification) {
+        await createEvent(oAuth2Client, result);
+      }
+      
+      res.status(StatusCodes.OK).json({
+        msg: "OK",
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   module.exports = {
     index,
     indexHistory,
@@ -118,4 +156,6 @@ const { sendToEmailIfSuccess, sendToEmailIfError } = require('../../../services/
     update,
     destroy,
     create,
+    activeNotification,
+    indexClient
   };

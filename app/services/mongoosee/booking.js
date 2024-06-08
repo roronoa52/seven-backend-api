@@ -76,6 +76,22 @@ const getAllBooking = async (req) => {
   return result;
 }
 
+const getAllBookingClient = async (req) => {
+
+  const result = await Booking.find({ clientId: req.user.id })
+    .populate({
+      path: 'image',
+      select: '_id name dataImage typeImage',
+    })
+    .populate({
+      path: 'product',
+      select: '_id name', 
+    })
+    .select('_id firstName middleName lastName email total status image product startDate endDate duration isNeedNotification');
+
+  return result;
+}
+
 const getAllBookingHistory = async (req) => {
   const { keyword } = req.query
   
@@ -104,20 +120,13 @@ const getAllBookingHistory = async (req) => {
 }
 
 const getOneBooking = async (req) => {
-  const { id } = req.params;
+  const { id } = req.user;
+  const { idbooking } = req.params;
 
   const result = await Booking.findOne({
-    _id: id,
-  })
-    .populate({
-      path: 'image',
-      select: '_id name dataImage typeImage',
-    })
-    .populate({
-      path: 'product',
-      select: '_id name',
-    })
-    .select('_id firstName middleName lastName email total status image product startDate endDate duration isNeedNotification');
+    _id: idbooking,
+    clientId: id,
+  }).select('_id firstName middleName lastName email total status image product clientId startDate endDate duration isNeedNotification');
 
   if (!result)
     throw new NotFoundError(`Tidak ada tipe booking dengan id :  ${id}`);
@@ -189,5 +198,6 @@ module.exports = {
   updateBooking,
   deleteBooking,
   checkingBooking,
-  getAllBookingHistory
+  getAllBookingHistory,
+  getAllBookingClient
 };

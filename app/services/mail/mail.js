@@ -91,10 +91,6 @@ const sendToEmailIfSuccess = async (booking) => {
       });
     });
 
-    // Membuat acara kalender jika diperlukan
-    if (booking.isNeedNotification) {
-      await createEvent(oAuth2Client, booking);
-    }
   } catch (error) {
     console.error('Error sending email:', error);
   }
@@ -102,17 +98,21 @@ const sendToEmailIfSuccess = async (booking) => {
 
 const createEvent = async (auth, booking) => {
   try {
+
+    const adjustedStartDate = moment(booking.startDate).add(7, 'hours').format();
+    const adjustedEndDate = moment(booking.endDate).add(7, 'hours').format();
+
     const calendar = google.calendar({ version: 'v3', auth });
     const event = {
       summary: 'Booking Meja Billiard',
       location: 'Lokasi Billiard 7Seven',
       description: `Pemesanan meja billiard untuk bermain selama ${booking.duration} jam \n\n Lokasi: https://maps.app.goo.gl/c3XBmewaoUypohQq7`,
       start: {
-        dateTime: booking.startDate,
+        dateTime: adjustedStartDate,
         timeZone: 'Asia/Jakarta',
       },
       end: {
-        dateTime: booking.endDate,
+        dateTime: adjustedEndDate,
         timeZone: 'Asia/Jakarta',
       },
       attendees: [{ email: booking.email }],
@@ -239,5 +239,6 @@ const sendToEmailIfError = async (booking) => {
 
 module.exports = {
   sendToEmailIfSuccess,
-  sendToEmailIfError
+  sendToEmailIfError,
+  createEvent
 };

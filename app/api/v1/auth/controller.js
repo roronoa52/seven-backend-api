@@ -32,7 +32,7 @@ const signupAdmin = async (req, res, next) => {
 const loginGoogle = async (req, res, next) => {
     try {
         const scopes = [
-            // 'https://www.googleapis.com/auth/calendar',
+            'https://www.googleapis.com/auth/calendar',
             'https://www.googleapis.com/auth/userinfo.email',
             'https://www.googleapis.com/auth/userinfo.profile'
           ];
@@ -60,13 +60,9 @@ const getRefreshToken = async (req, res, next) => {
             url: 'https://www.googleapis.com/oauth2/v3/userinfo'
         });
 
-        const result = await signinClient(userInfo.data)
-
-        res.status(StatusCodes.OK).json({
-            data: result
-        })
+        await signinClient(userInfo.data)
         
-        res.redirect(urlServer)
+        res.redirect("http://localhost:9000")
     } catch (error) {
         next(error)
     }
