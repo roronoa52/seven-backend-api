@@ -98,8 +98,8 @@ const sendToEmailIfSuccess = async (booking) => {
 
 const createEvent = async (auth, booking) => {
   try {
-    const adjustedStartDate = moment(booking.startDate).add(7, 'hours').format();
-    const adjustedEndDate = moment(booking.endDate).add(7, 'hours').format();
+    const adjustedStartDate = moment(booking.startDate).add(7, 'hours').subtract(1, 'days').format();
+    const adjustedEndDate = moment(booking.endDate).add(7, 'hours').subtract(1, 'days').format();
 
     const calendar = google.calendar({ version: 'v3', auth });
     const event = {
@@ -107,11 +107,11 @@ const createEvent = async (auth, booking) => {
       location: 'Lokasi Billiard 7Seven',
       description: `Pemesanan meja billiard untuk bermain selama ${booking.duration} jam \n\n Lokasi: https://maps.app.goo.gl/c3XBmewaoUypohQq7`,
       start: {
-        dateTime: new Date(adjustedStartDate).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
+        dateTime: adjustedStartDate,
         timeZone: 'Asia/Jakarta',
       },
       end: {
-        dateTime: new Date(adjustedEndDate).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
+        dateTime: adjustedEndDate,
         timeZone: 'Asia/Jakarta',
       },
       attendees: [{ email: booking.email }],
@@ -142,6 +142,7 @@ const createEvent = async (auth, booking) => {
     throw error;
   }
 };
+
 
 
 
