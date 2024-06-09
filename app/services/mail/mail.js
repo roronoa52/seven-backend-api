@@ -107,11 +107,11 @@ const createEvent = async (auth, booking) => {
       location: 'Lokasi Billiard 7Seven',
       description: `Pemesanan meja billiard untuk bermain selama ${booking.duration} jam \n\n Lokasi: https://maps.app.goo.gl/c3XBmewaoUypohQq7`,
       start: {
-        dateTime: adjustedStartDate,
+        dateTime: new Date(adjustedStartDate).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
         timeZone: 'Asia/Jakarta',
       },
       end: {
-        dateTime: adjustedEndDate,
+        dateTime: new Date(adjustedEndDate).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
         timeZone: 'Asia/Jakarta',
       },
       attendees: [{ email: booking.email }],
