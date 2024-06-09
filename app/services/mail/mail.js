@@ -98,10 +98,8 @@ const sendToEmailIfSuccess = async (booking) => {
 
 const createEvent = async (auth, booking) => {
   try {
-    const adjustedStartDate = moment(booking.startDate).add(5, 'hours').format();
-    const adjustedEndDate = moment(booking.endDate).add(5, 'hours').format();
-    console.log(booking.startDate);
-    console.log(adjustedStartDate);
+    const adjustedStartDate = moment(booking.startDate).add(7, 'hours').format();
+    const adjustedEndDate = moment(booking.endDate).add(7, 'hours').format();
 
     const calendar = google.calendar({ version: 'v3', auth });
     const event = {
@@ -144,6 +142,7 @@ const createEvent = async (auth, booking) => {
     throw error;
   }
 };
+
 
 
 const sendToEmailIfError = async (booking) => {
