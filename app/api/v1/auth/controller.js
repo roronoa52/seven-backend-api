@@ -62,7 +62,7 @@ const getRefreshToken = async (req, res, next) => {
         const result = await signinClient(userInfo.data);
         
         // URL frontend tempat Anda ingin mengarahkan pengguna setelah login
-        const redirectUrl = `http://localhost:3000/redirect?token=${result.token}&name=${result.name}&email=${result.email}`;
+        const redirectUrl = `https://7seven.vercel.app/redirect?token=${result.token}&name=${result.name}&email=${result.email}`;
         
         // Mengarahkan pengguna ke URL frontend
         res.redirect(redirectUrl);
