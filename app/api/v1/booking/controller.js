@@ -135,17 +135,21 @@ const { oAuth2Client } = require('../../../google/oauth2');
 
   const activeNotification = async (req, res, next) => {
     try {
-      const result = await getOneBooking(req);
-
+      const result = await getOneBooking(req.params.idbooking);
+  
       if (result.isNeedNotification && result.status == "berhasil") {
         await createEvent(oAuth2Client, result);
       }
-      
+  
       res.status(StatusCodes.OK).json({
         msg: "OK",
       });
     } catch (err) {
-      next(err);
+      console.error('Error in activeNotification:', err);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        msg: "Error processing request",
+        error: err.message,
+      });
     }
   };
 
