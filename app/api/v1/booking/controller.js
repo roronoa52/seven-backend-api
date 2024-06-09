@@ -139,11 +139,16 @@ const { oAuth2Client } = require('../../../google/oauth2');
   
       if (result.isNeedNotification && result.status == "berhasil") {
         await createEvent(oAuth2Client, result);
+          
+        res.status(StatusCodes.OK).json({
+          msg: "OK",
+        });
+      }else{
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+          error: "Notification is false or status is ditolak",
+        });
       }
-  
-      res.status(StatusCodes.OK).json({
-        msg: "OK",
-      });
+
     } catch (err) {
       console.error('Error in activeNotification:', err);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
