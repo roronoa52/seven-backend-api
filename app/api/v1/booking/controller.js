@@ -135,7 +135,7 @@ const { oAuth2Client } = require('../../../google/oauth2');
 
   const activeNotification = async (req, res, next) => {
     try {
-      const result = await getOneBooking(req.params.idbooking);
+      const result = await getOneBooking(req);
   
       if (result.isNeedNotification && result.status == "berhasil") {
         await createEvent(oAuth2Client, result);
