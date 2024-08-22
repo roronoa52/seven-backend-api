@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express()
-const { create, index, find, update, destroy } = require("./controller")
+const { create, index, find, update, destroy, updateMany } = require("./controller")
 const { authenticateUser } = require("../../../middlewares/auth")
 
 router.post ("/products", authenticateUser, create)

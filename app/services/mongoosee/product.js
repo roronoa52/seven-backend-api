@@ -82,6 +82,7 @@ const updateProduct = async (req) => {
     return result;
 }
 
+
 const deleteProduct = async (req) => {
     const { id } = req.params
 
@@ -100,6 +101,6 @@ module.exports = {
     getAllProducts,
     getOneProduct,
     updateProduct,
-    deleteProduct,
+    deleteProduct
 }
 
