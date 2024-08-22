@@ -31,7 +31,7 @@ const createBooking = async (req) => {
   });
 
   if (conflictingBooking) {
-    throw new Error('Jadwal booking bentrok dengan booking lain');
+    throw new Error('Jadwal tidak tersedia');
   }
 
   const result = await Booking.create({
